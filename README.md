@@ -5,7 +5,11 @@ This repository is based on [MTRL](https://github.com/facebookresearch/mtrl). Pl
 # Notice 
 We use experiment.random_pos to choose Fixed environment or Mixed environment, and add corresponding code in src/mtenv, so it doesn't need to git clone submodule mtenv anymore.
 # Getting Started 
-You can use the following instructions  to run CMTA:
+We should install the local mtenv lib at first:
+```bash
+pip install -e src/mtenv/.
+```
+Then you can use the following instructions to run CMTA:
 ```bash
 cd scripts
 bash CMTA.sh $seed$
