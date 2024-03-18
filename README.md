@@ -7,7 +7,8 @@ We use experiment.random_pos to choose Fixed environment or Mixed environment, a
 # Getting Started 
 We should install the local mtenv lib at first:
 ```bash
-pip install -e src/mtenv/.
+cd src/mtenv
+pip install -e .
 ```
 Then you can use the following instructions to run CMTA:
 ```bash
