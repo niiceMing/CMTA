@@ -56,8 +56,6 @@ class Agent(AbstractAgent):
         self.env_obs_shape = env_obs_shape
         self.should_use_task_encoder = self.multitask_cfg.should_use_task_encoder
         self.should_use_classifier = self.multitask_cfg.should_use_classifier
-        self.should_use_infomation_bottlenck = self.multitask_cfg.should_use_infomation_bottlenck
-        self.should_use_IB_classifier = self.multitask_cfg.should_use_IB_classifier
 
         self.discount = discount
         self.critic_tau = critic_tau
@@ -388,20 +386,20 @@ class Agent(AbstractAgent):
         logger.log("train/critic_loss", loss_to_log, step)
 
         info_nce_loss = 0
-        info_nce = InfoNCE(negative_mode='paired')
-        # batch_size, num_negative, embedding_size = 1280, 5, 64
-        # experts_num
-        for i in range(6):
-            query = ori_encoding[i]
-            positive_key = ori_next_encoding[i]
-            # [5, batch, emb_size]
-            negative_keys = torch.cat((ori_encoding[0:i],ori_encoding[i+1:6]),0)
-            # [5, batch, emb_size] -> [batch, 5, emb_size]
-            negative_keys = torch.transpose(negative_keys,0,1)
-            info_nce_loss += info_nce(query, positive_key, negative_keys)
-            # pdb.set_trace()
-        logger.log("train/info_nce_loss", info_nce_loss, step) 
-        total_loss = critic_loss + 2500 * info_nce_loss
+        if ori_encoding is not None:        
+            info_nce = InfoNCE(negative_mode='paired')
+            # batch_size, num_negative, embedding_size = 1280, 5, 64
+            # experts_num
+            for i in range(6):
+                query = ori_encoding[i]
+                positive_key = ori_next_encoding[i]
+                # [5, batch, emb_size]
+                negative_keys = torch.cat((ori_encoding[0:i],ori_encoding[i+1:6]),0)
+                # [5, batch, emb_size] -> [batch, 5, emb_size]
+                negative_keys = torch.transpose(negative_keys,0,1)
+                info_nce_loss += info_nce(query, positive_key, negative_keys)
+            logger.log("train/info_nce_loss", info_nce_loss, step) 
+            total_loss = critic_loss + 2500 * info_nce_loss
 
         if loss_to_log > 1e8:
             raise RuntimeError(

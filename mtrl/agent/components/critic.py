@@ -304,10 +304,6 @@ class Critic(base_component.Component):
 
         self.should_concatenate_hidden_with_encoder = multitask_cfg.critic_cfg.should_concatenate_hidden_with_encoder
 
-
-        self.should_use_infomation_bottlenck = multitask_cfg.should_use_infomation_bottlenck
-        self.should_use_IB_classifier = multitask_cfg.should_use_IB_classifier
-
         if self.should_use_multi_head_policy:
             if self.should_use_attention_multi_head_policy:    
                 self.head_selection = self.make_head_selection(

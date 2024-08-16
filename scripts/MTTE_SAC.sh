@@ -12,7 +12,6 @@ setup.seed=$1 \
 setup.dir_name=logs_fix \
 replay_buffer.batch_size=1280 \
 agent.multitask.num_envs=${num_envs} \
-agent.multitask.should_use_infomation_bottlenck=False \
 agent.multitask.should_use_disentangled_alpha=True \
 agent.encoder.type_to_select=feedforward \
 agent.multitask.should_use_task_encoder=True \

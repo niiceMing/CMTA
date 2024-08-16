@@ -185,7 +185,7 @@ class IdentityEncoder(Encoder):
         self.feature_dim = feature_dim
 
     def forward(self, mtobs: MTObs, detach: bool = False):
-        return mtobs.env_obs, None
+        return mtobs.env_obs, None, None
 
 
 class FeedForwardEncoder(Encoder):
@@ -229,7 +229,7 @@ class FeedForwardEncoder(Encoder):
         if detach:
             h = h.detach()
 
-        return h, None
+        return h, None, None
 
     def copy_conv_weights_from(self, source: Encoder):
         if self.should_tie_encoders:
